@@ -26,7 +26,7 @@ function getApi(){
 
 
 function getSecondApi(){
-    var requestFiveDay = `http://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=${apiKey}`;
+    var requestFiveDay = `http://api.openweathermap.org/data/2.5/forecast?lat=39.29&lon=-76.61&appid=${apiKey}`;
     fetch(requestFiveDay)
     .then(function (response){
         console.log("second request", response);
