@@ -1,39 +1,48 @@
 var apiKey = "8580830c11a7191e5ae4a3dfc3543929";
-var locationSearch = document.getElementById("input-info");
+
 var searchButton = document.getElementById("search-button");
-var citySearched = document.getElementById("input-info");
-console.log(citySearched);
-
-var city;
+var locationSearch = document.getElementById("input-info");
+var city = locationSearch.value;
 
 
+searchButton.addEventListener("click",userInput);
 
-
-
-function getApi(){
-    var requestUrlByCity = `http://api.openweathermap.org/geo/1.0/direct?q=Baltimore&limit=1&appid=${apiKey}`;
-
-    fetch(requestUrlByCity)
-    .then(function (response){
-        console.log("this is the first .then()", response);
-        return response.json();
-    })
-    .then(function(data){
-        console.log("this is the second .then()" , data);
-        
-    })
+function userInput(event){
+    event.preventDefault()
+    city = locationSearch.value;
+    console.log(city);
+    getSecondApi(city);
 }
+
+// function getApi(){
+//     var requestUrlByCity = `http://api.openweathermap.org/geo/1.0/direct?q=Chicago&limit=1&appid=${apiKey}`;
+
+//     fetch(requestUrlByCity)
+//     .then(function (response){
+//         console.log("this is the first .then()", response);
+//         return response.json();
+//     })
+//     .then(function(data){
+//         console.log("this is the second .then()" , data);
+//         console.log(data[0].lat);
+//         console.log(data[0].lon);
+        
+//     })
+// }
 
 
 function getSecondApi(){
-    var requestFiveDay = `http://api.openweathermap.org/data/2.5/forecast?lat=39.29&lon=-76.61&appid=${apiKey}`;
+    var requestFiveDay = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=imperial`;
     fetch(requestFiveDay)
     .then(function (response){
-        console.log("second request", response);
         return response.json();
     })
     .then(function(data){
-        console.log("second request data", data);
+        console.log(data);
+        console.log(data.city.name);
+        console.log(data.list[0].dt_txt);
+        console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
+
     })
 }
 
@@ -77,6 +86,5 @@ function getSecondApi(){
 // //figure out how to get longitude
 
 
-getApi()
-getSecondApi()
-// searchButton.addEventListener("click",getApi);
+// getApi()
+// getSecondApi()
