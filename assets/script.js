@@ -25,7 +25,7 @@ function getApi(){
         return response.json();
     })
     .then(function(data){
-        console.log("this is the data " , data);
+        console.log("this is the current day forecast data ", data);
         console.log(" Temp: " + data.main.temp + " F " + " Feels like " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity " + data.main.humidity + " " +  " Wind " + data.wind.speed );
         console.log();
         
@@ -40,7 +40,7 @@ function getSecondApi(){
         return response.json();
     })
     .then(function(data){
-        console.log(data);
+        console.log(" five day forecast data ", data);
         console.log(data.city.name);
         console.log(data.list[0].dt_txt);
         console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
