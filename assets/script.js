@@ -1,5 +1,6 @@
 var apiKey = "8580830c11a7191e5ae4a3dfc3543929";
 
+var container = document.getElementById("container");
 var searchButton = document.getElementById("search-button");
 var locationSearch = document.getElementById("input-info");
 var city = locationSearch.value;
@@ -26,9 +27,15 @@ function getApi(){
     })
     .then(function(data){
         console.log("this is the current day forecast data ", data);
-        console.log(" Temp: " + data.main.temp + " F " + " Feels like " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity " + data.main.humidity + " " +  " Wind " + data.wind.speed );
-        console.log();
-        
+        var location = document.createElement("h2");
+        location.textContent = data.name;
+        var currentDayHeader = document.createElement("h3");
+        currentDayHeader.textContent =  " Current Day Forecast ";
+        var currentDay = document.createElement("p");
+        currentDay.textContent = " Temp: " + data.main.temp + "F " + " Feels like: " + data.main.feels_like  + "F " + data.weather[0].description + " Humidity: " + data.main.humidity + " " +  " Wind: " + data.wind.speed + " mph ";
+        container.append(location);
+        container.append(currentDayHeader);
+        container.append(currentDay);
     })
 }
 
@@ -48,6 +55,7 @@ function getSecondApi(){
         lon = data.city.coord.lon;
         console.log(lat);
         console.log(lon);
+        
         getApi()
     })
 }
