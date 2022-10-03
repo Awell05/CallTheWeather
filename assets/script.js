@@ -3,6 +3,8 @@ var apiKey = "8580830c11a7191e5ae4a3dfc3543929";
 var searchButton = document.getElementById("search-button");
 var locationSearch = document.getElementById("input-info");
 var city = locationSearch.value;
+var lat;
+var lon;
 
 
 searchButton.addEventListener("click",userInput);
@@ -10,23 +12,21 @@ searchButton.addEventListener("click",userInput);
 function userInput(event){
     event.preventDefault()
     city = locationSearch.value;
-    console.log(city);
-    getApi(city);
+    // console.log(city);
     getSecondApi(city);
     
 }
 
 function getApi(){
-    var requestUrlByCity = `https://api.openweathermap.org/data/2.5/weather?lat=32.78&lon=-96.80&appid=${apiKey}&units=imperial`;
+    var requestUrlByCity = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
     fetch(requestUrlByCity)
     .then(function (response){
-        console.log("this is the first response", response);
         return response.json();
     })
     .then(function(data){
         console.log("this is the data " , data);
-        console.log(data.coord.lat + data.coord.lon + " Temp: " + data.main.temp + " F " + " Feels like " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity " + data.main.humidity + " " +  " Wind " + data.wind.speed );
+        console.log(" Temp: " + data.main.temp + " F " + " Feels like " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity " + data.main.humidity + " " +  " Wind " + data.wind.speed );
         console.log();
         
     })
@@ -43,10 +43,12 @@ function getSecondApi(){
         console.log(data);
         console.log(data.city.name);
         console.log(data.list[0].dt_txt);
-        console.log(data.city.coord.lat);
-        console.log(data.city.coord.lon);
         console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
-        
+        lat = data.city.coord.lat;
+        lon = data.city.coord.lon;
+        console.log(lat);
+        console.log(lon);
+        getApi()
     })
 }
 
@@ -86,8 +88,6 @@ function getSecondApi(){
 //         })
 // }
 
-// //figure out how to get latitude
-// //figure out how to get longitude
 
 
 // getApi()
