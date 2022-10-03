@@ -11,24 +11,26 @@ function userInput(event){
     event.preventDefault()
     city = locationSearch.value;
     console.log(city);
+    getApi(city);
     getSecondApi(city);
+    
 }
 
-// function getApi(){
-//     var requestUrlByCity = `http://api.openweathermap.org/geo/1.0/direct?q=Chicago&limit=1&appid=${apiKey}`;
+function getApi(){
+    var requestUrlByCity = `https://api.openweathermap.org/data/2.5/weather?lat=32.78&lon=-96.80&appid=${apiKey}&units=imperial`;
 
-//     fetch(requestUrlByCity)
-//     .then(function (response){
-//         console.log("this is the first .then()", response);
-//         return response.json();
-//     })
-//     .then(function(data){
-//         console.log("this is the second .then()" , data);
-//         console.log(data[0].lat);
-//         console.log(data[0].lon);
+    fetch(requestUrlByCity)
+    .then(function (response){
+        console.log("this is the first response", response);
+        return response.json();
+    })
+    .then(function(data){
+        console.log("this is the data " , data);
+        console.log(data.coord.lat + data.coord.lon + " Temp: " + data.main.temp + " F " + " Feels like " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity " + data.main.humidity + " " +  " Wind " + data.wind.speed );
+        console.log();
         
-//     })
-// }
+    })
+}
 
 
 function getSecondApi(){
@@ -41,8 +43,10 @@ function getSecondApi(){
         console.log(data);
         console.log(data.city.name);
         console.log(data.list[0].dt_txt);
+        console.log(data.city.coord.lat);
+        console.log(data.city.coord.lon);
         console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
-
+        
     })
 }
 
