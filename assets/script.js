@@ -7,16 +7,18 @@ var city = locationSearch.value;
 var lat;
 var lon;
 
+localStorage.getItem()
 
 searchButton.addEventListener("click",userInput);
 
 function userInput(event){
     event.preventDefault()
     city = locationSearch.value;
-    // console.log(city);
+    localStorage.setItem("city", JSON.stringify(city));
     getSecondApi(city);
-    
 }
+
+localStorage.setItem("city", city);
 
 function getApi(){
     var requestUrlByCity = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
@@ -53,6 +55,7 @@ function getSecondApi(){
         console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
         lat = data.city.coord.lat;
         lon = data.city.coord.lon;
+
         console.log(data.list[6].dt_txt + "Temp: " + data.list[6].main.temp + " F " + " Wind: " + data.list[6].wind.speed + " mph " + " Humidity: " + data.list[6].main.humidity + " " + data.list[6].weather[0].description);
         console.log(data.list[14].dt_txt + "Temp: " + data.list[14].main.temp + " F " + " Wind: " + data.list[14].wind.speed + " mph " + " Humidity: " + data.list[14].main.humidity + " " + data.list[14].weather[0].description);
         console.log(data.list[22].dt_txt + "Temp: " + data.list[22].main.temp + " F " + " Wind: " + data.list[22].wind.speed + " mph " + " Humidity: " + data.list[22].main.humidity + " " + data.list[22].weather[0].description);
