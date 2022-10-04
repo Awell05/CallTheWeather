@@ -32,7 +32,7 @@ function getApi(){
         var currentDayHeader = document.createElement("h3");
         currentDayHeader.textContent =  " Current Day Forecast ";
         var currentDay = document.createElement("p");
-        currentDay.textContent = " Temp: " + data.main.temp + "F " + " Feels like: " + data.main.feels_like  + "F " + data.weather[0].description + " Humidity: " + data.main.humidity + " " +  " Wind: " + data.wind.speed + " mph ";
+        currentDay.textContent = " Temp: " + data.main.temp + " F " + " Feels like: " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity: " + data.main.humidity + " " +  " Wind: " + data.wind.speed + " mph ";
         container.append(location);
         container.append(currentDayHeader);
         container.append(currentDay);
@@ -53,9 +53,11 @@ function getSecondApi(){
         console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
         lat = data.city.coord.lat;
         lon = data.city.coord.lon;
-        console.log(lat);
-        console.log(lon);
-        
+        console.log(data.list[6].dt_txt + "Temp: " + data.list[6].main.temp + " F " + " Wind: " + data.list[6].wind.speed + " mph " + " Humidity: " + data.list[6].main.humidity + " " + data.list[6].weather[0].description);
+        console.log(data.list[14].dt_txt + "Temp: " + data.list[14].main.temp + " F " + " Wind: " + data.list[14].wind.speed + " mph " + " Humidity: " + data.list[14].main.humidity + " " + data.list[14].weather[0].description);
+        console.log(data.list[22].dt_txt + "Temp: " + data.list[22].main.temp + " F " + " Wind: " + data.list[22].wind.speed + " mph " + " Humidity: " + data.list[22].main.humidity + " " + data.list[22].weather[0].description);
+        console.log(data.list[30].dt_txt + "Temp: " + data.list[30].main.temp + " F " + " Wind: " + data.list[30].wind.speed + " mph " + " Humidity: " + data.list[30].main.humidity + " " + data.list[30].weather[0].description);
+        console.log(data.list[38].dt_txt + "Temp: " + data.list[38].main.temp + " F " + " Wind: " + data.list[38].wind.speed + " mph " + " Humidity: " + data.list[38].main.humidity + " " + data.list[38].weather[0].description);
         getApi()
     })
 }
