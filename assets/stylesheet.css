@@ -1,3 +1,13 @@
+* {font-family: verdana, arial,Trebuchet;}
+
+h1{
+    background: linear-gradient(to bottom, #33ccff 0%, #0033cc 100%);
+    padding: 2%;
+    color: white;
+    border: 0px;
+    margin: 0px;
+    text-align: center;
+}
 .card{
     background-color: rgb(11, 0, 61);
     color: white;
