@@ -11,31 +11,31 @@ var storage = JSON.parse(localStorage.getItem("cities")) || []
 var fiveDayArea = document.getElementById('fiveday-forecast')
 
 
-searchButton.addEventListener("click",userInput);
 
-function renderHistory(){
-    console.log(storage)
+// Search Button
+searchButton.addEventListener("click", userInput);
+
+// Function to append button elements for searched cities
+function renderHistory() {
     var historyElement = document.getElementById('history')
-    console.log(historyElement)
-    storage.forEach(function(element){
+    historyElement.replaceChildren()
+    storage.forEach(function (element) {
         var button = document.createElement('button')
         button.innerHTML = element
         button.addEventListener('click', userInput)
         historyElement.append(button)
+
     })
 }
 
-
-function userInput(event){
+// stores searched cities into local storage
+function userInput(event) {
     event.preventDefault()
-    console.log(event.target.id)
-    if(event.target.id != 'search-button'){
+    if (event.target.id != 'search-button') {
         return getSecondApi(event.target.innerHTML)
     }
-    console.log("trigerred by city search")
     city = locationSearch.value;
-    console.log(city)
-    if (storage.includes(city)){
+    if (storage.includes(city)) {
         return getSecondApi(city)
     }
     storage.push(city)
@@ -44,70 +44,74 @@ function userInput(event){
     getSecondApi(city);
 }
 
-function getApi(){
+
+// API to display current day forecast information
+function getApi() {
     var requestUrlByCity = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
     fetch(requestUrlByCity)
-    .then(function (response){
-        return response.json();
-    })
-    .then(function(data){
-        container.innerHTML = ""
-        console.log("this is the current day forecast data ", data);
-        var cardDiv = document.createElement('div')
-        cardDiv.classList.add('card')
-        var location = document.createElement("h2");
-        location.textContent = data.name;
-        var currentDayHeader = document.createElement("h3");
-        currentDayHeader.textContent =  " Current Day Forecast ";
-        var currentDay = document.createElement("p");
-        currentDay.textContent = " Temp: " + data.main.temp + " F " + " Feels like: " + data.main.feels_like  + " F " + data.weather[0].description + " Humidity: " + data.main.humidity + " " +  " Wind: " + data.wind.speed + " mph ";
-        cardDiv.append(location);
-        cardDiv.append(currentDayHeader);
-        cardDiv.append(currentDay);
-        container.append(cardDiv)
-    })
-}
-
-
-function getSecondApi(searchValue){
-    var requestFiveDay = `http://api.openweathermap.org/data/2.5/forecast?q=${searchValue}&appid=${apiKey}&units=imperial`;
-    fetch(requestFiveDay)
-    .then(function (response){
-        return response.json();
-    })
-    .then(function(data){
-        console.log(" five day forecast data ", data);
-        // console.log(data.city.name);
-        // console.log(data.list[0].dt_txt);
-        // console.log("Temp: " + data.list[0].main.temp + " F " + " Feels like: " +  data.list[0].main.feels_like + " F " + " Wind: " + data.list[0].wind.speed + " mph " + " Humidity: " + data.list[0].main.humidity + " " + data.list[0].weather[0].description);
-        lat = data.city.coord.lat;
-        lon = data.city.coord.lon;
-        console.log(data.list[6].dt_txt + " " + "Temp: " + data.list[6].main.temp + " F " + " Wind: " + data.list[6].wind.speed + " mph " + " Humidity: " + data.list[6].main.humidity + " " + data.list[6].weather[0].description);
-        console.log(data.list[14].dt_txt + " " + "Temp: " + data.list[14].main.temp + " F " + " Wind: " + data.list[14].wind.speed + " mph " + " Humidity: " + data.list[14].main.humidity + " " + data.list[14].weather[0].description);
-        console.log(data.list[22].dt_txt + " " + "Temp: " + data.list[22].main.temp + " F " + " Wind: " + data.list[22].wind.speed + " mph " + " Humidity: " + data.list[22].main.humidity + " " + data.list[22].weather[0].description);
-        console.log(data.list[30].dt_txt + " " + "Temp: " + data.list[30].main.temp + " F " + " Wind: " + data.list[30].wind.speed + " mph " + " Humidity: " + data.list[30].main.humidity + " " + data.list[30].weather[0].description);
-        console.log(data.list[38].dt_txt + " " + "Temp: " + data.list[38].main.temp + " F " + " Wind: " + data.list[38].wind.speed + " mph " + " Humidity: " + data.list[38].main.humidity + " " + data.list[38].weather[0].description);
-        fiveDayArea.innerHTML = ""
-        for(let i=6; i<39; i+=8){
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            container.innerHTML = ""
             var cardDiv = document.createElement('div')
             cardDiv.classList.add('card')
-            var wind = document.createElement("p")
-            wind.textContent = " Wind: " + data.list[i].wind.speed + " mph " ;
-            var temp = document.createElement('p')
-            temp.textContent = data.list[i].dt_txt + " " + "Temp: " + data.list[i].main.temp + " F "
-            var humidity = document.createElement('p')
-            humidity.textContent = " Humidity: " + data.list[i].main.humidity
-            var forecast = document.createElement('p')
-            forecast.textContent = "Forecast: " + data.list[i].weather[0].description
-            cardDiv.append(temp, wind, humidity, forecast);
-            fiveDayArea.appendChild(cardDiv);
-        }
-        getApi(searchValue)
-    })
+            var location = document.createElement("h2");
+            location.textContent = data.name;
+            var currentDayHeader = document.createElement("h3");
+            currentDayHeader.textContent = " Current Day Forecast ";
+            var currentTemp = document.createElement("p");
+            currentTemp.textContent = " Temp: " + data.main.temp + " F ";
+            var currentFeelsLike = document.createElement("p");
+            currentFeelsLike.textContent = " Feels like: " + data.main.feels_like + " F ";
+            var currentHumidity = document.createElement("p");
+            currentHumidity.textContent = " Humidity: " + data.main.humidity + " "
+            var currentWind = document.createElement("p");
+            currentWind.textContent = " Wind: " + data.wind.speed + " mph ";
+            var currentDataDescription = document.createElement("p");
+            currentDataDescription.textContent = data.weather[0].description;
+            cardDiv.append(location, currentDayHeader, currentTemp, currentFeelsLike, currentHumidity, currentWind, currentDataDescription);
+            container.append(cardDiv)
+        })
+}
+
+// second api to display five day forecast
+function getSecondApi(searchValue) {
+    var requestFiveDay = `http://api.openweathermap.org/data/2.5/forecast?q=${searchValue}&appid=${apiKey}&units=imperial`;
+    fetch(requestFiveDay)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            lat = data.city.coord.lat;
+            lon = data.city.coord.lon;
+            fiveDayArea.innerHTML = ""
+            var fiveDayHeader = document.createElement('h3')
+            fiveDayHeader.textContent = " Five Day Forecast: "
+            fiveDayHeader.setAttribute("style", "color: black;")
+            fiveDayArea.append(fiveDayHeader);
+            for (let i = 6; i < 39; i += 8) {
+                var cardDiv = document.createElement('div')
+                cardDiv.classList.add('cards')
+                var wind = document.createElement("p")
+                wind.textContent = " Wind: " + data.list[i].wind.speed + " mph ";
+                var date = document.createElement("p");
+                date.textContent = data.list[i].dt_txt;
+                var temp = document.createElement('p')
+                temp.textContent = "Temp: " + data.list[i].main.temp + " F ";
+                var humidity = document.createElement('p')
+                humidity.textContent = " Humidity: " + data.list[i].main.humidity;
+                var forecast = document.createElement('p')
+                forecast.textContent = "Forecast: " + data.list[i].weather[0].description;
+                cardDiv.append(date, temp, wind, humidity, forecast);
+                fiveDayArea.appendChild(cardDiv);
+            }
+            getApi(searchValue)
+        })
 }
 
 
-if (storage.length){
+if (storage.length) {
     renderHistory()
 }
